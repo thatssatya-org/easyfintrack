@@ -1,0 +1,85 @@
+name: Build FinTrack Dashboard
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-image:
+    runs-on: self-hosted
+    outputs:
+      image_changed: ${{ steps.check_diff.outputs.changed }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # NUANCE: Frontends often need env vars at BUILD time (unlike JVM apps).
+      # If your Vite app needs to know the API URL, you must pass it here.
+      - name: Create Build Environment
+        run: |
+          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" > .env
+
+      - name: Get Previous Image ID
+        id: pre_check
+        run: |
+          echo "OLD_ID=$(docker images -q thatssatyadocker/fintrack-dashboard:latest 2>/dev/null || echo '')" >> $GITHUB_ENV
+
+      - name: Build Frontend Docker Image
+        run: |
+          # DOCKER_BUILDKIT is standard now, but good to keep explicit.
+          # We don't need --build-arg if we created a .env file above; Vite picks it up.
+          docker build . -t thatssatyadocker/fintrack-dashboard:latest
+
+      - name: Check for Image Changes
+        id: check_diff
+        run: |
+          NEW_ID=$(docker images -q thatssatyadocker/fintrack-dashboard:latest)
+          if [ "$OLD_ID" = "$NEW_ID" ]; then
+             echo "changed=false" >> $GITHUB_OUTPUT
+          else
+             echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Prune Dangling images
+        run: docker image prune -f
+
+  push-image:
+    runs-on: self-hosted
+    needs: build-image
+    # Only push if the binary/code actually changed
+    if: needs.build-image.outputs.image_changed == 'true'
+    steps:
+      - name: Push to Docker Hub
+        run: |
+          docker login -u thatssatyadocker -p ${{ secrets.DOCKER_HUB_SECRET }}
+          docker push thatssatyadocker/fintrack-dashboard:latest
+
+  prod-deploy:
+    runs-on: self-hosted
+    needs: [build-image, push-image]
+    environment: production # Requires 'production' environment setup in GitHub Repo Settings
+
+    # Run if build succeeded, even if push was skipped (e.g. for config/env changes)
+    if: |
+      always() && 
+      needs.build-image.result == 'success' && 
+      (needs.push-image.result == 'success' || needs.push-image.result == 'skipped')
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # This .env is for the RUNTIME container (docker-compose),
+      # e.g., mapping ports or Nginx config.
+      - name: Create .env file
+        run: echo "${{ secrets.DOT_ENV_SECRETS }}" > .env
+
+      - name: Prod Deploy
+        run: |
+          docker compose --file fintrack-prod-stack.yml pull
+          docker compose --file fintrack-prod-stack.yml up --detach --force-recreate --remove-orphans
+
+      - name: Prune Dangling images
+        run: docker image prune -f
