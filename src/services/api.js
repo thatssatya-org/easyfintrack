@@ -7,9 +7,9 @@ export const fetchTransactions = async (fileType = 'STATEMENT') => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "date": import.meta.env.VITE_TRANSACTION_DATE || "20251206",
+                "date": import.meta.env.VITE_TRANSACTION_DATE || '',
                 "filters": {
-                    "id": import.meta.env.VITE_USER_EMAIL || "satyajitr.kv3nal@gmail.com"
+                    "id": import.meta.env.VITE_USER_EMAIL || ''
                 }
             })
         });
