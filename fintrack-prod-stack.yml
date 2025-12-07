@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   frontend:
-    image: fintrack-frontend:latest
+    image: fintrack-dashboard:latest
     container_name: fintrack-frontend
     mem_limit: 128m
     ports:
