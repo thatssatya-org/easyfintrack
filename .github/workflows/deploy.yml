@@ -19,7 +19,9 @@ jobs:
       # If your Vite app needs to know the API URL, you must pass it here.
       - name: Create Build Environment
         run: |
-          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" > .env
+          echo "VITE_API_BASE_URL=${{ vars.VITE_API_BASE_URL }}" > .env
+          echo "VITE_TRANSACTION_DATE=${{ vars.VITE_TRANSACTION_DATE }}" >> .env
+          echo "VITE_USER_EMAIL=${{ vars.VITE_USER_EMAIL }}" >> .env
 
       - name: Get Previous Image ID
         id: pre_check
