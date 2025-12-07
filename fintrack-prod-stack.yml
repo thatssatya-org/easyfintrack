@@ -12,3 +12,7 @@ services:
       - NODE_ENV=production
     networks:
       - nginxproxymanager
+
+networks:
+  nginxproxymanager:
+    external: true
