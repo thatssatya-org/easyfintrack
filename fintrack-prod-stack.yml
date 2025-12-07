@@ -6,7 +6,9 @@ services:
     container_name: fintrack-frontend
     mem_limit: 128m
     ports:
-      - "3000:80"
+      - "80"
     restart: unless-stopped
     environment:
       - NODE_ENV=production
+    networks:
+      - nginxproxymanager
