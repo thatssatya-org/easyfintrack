@@ -1,0 +1,18 @@
+High level Requirement:
+    Design a feature to upload pdf file and display the transactions in the frontend.
+
+functional Requirements:
+    Use the existing api to get the transactions defined in src/services/api.js
+    Upload file as multipart/form-data
+    API for backend is POST /v1/files/manual which accepts the file as request part with key 'file'
+    Show a loader state while file is being uploaded.
+    Show a success message once file is uploaded
+    Show a error message if file upload fails
+    Show easter eggs and animations while file is being uploaded
+
+
+Non functional requirements:
+    Ensure the file is not larger than 5MB
+    Ensure the file is not empty
+    Ensure the file is a pdf file
+    Ensure performance for sending file to backend

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowUpRight, ArrowDownLeft, Wallet, RefreshCw, AlertCircle } from 'lucide-react';
+import { ArrowUpRight, ArrowDownLeft, Wallet, RefreshCw, AlertCircle, UploadCloud, X } from 'lucide-react';
 import { fetchTransactions } from '../services/api';
 import SplitModal from './SplitModal';
 import TransactionRow from './TransactionRow';
+
+import FileUpload from './FileUpload';
 
 const TransactionDashboard = () => {
     const [transactions, setTransactions] = useState([]);
@@ -10,6 +12,7 @@ const TransactionDashboard = () => {
     const [error, setError] = useState(null);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [isSplitModalOpen, setIsSplitModalOpen] = useState(false);
+    const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
     useEffect(() => {
         loadData();
@@ -24,9 +27,6 @@ const TransactionDashboard = () => {
         } catch (err) {
             console.error("Error loading transactions", err);
             setError("Failed to load transactions. Please try again.");
-            // Optional: fallback to mock data if needed for demo
-            // import { API_RESPONSE } from '../data/mockData';
-            // setTransactions(API_RESPONSE.contents);
         } finally {
             setLoading(false);
         }
@@ -54,7 +54,7 @@ const TransactionDashboard = () => {
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-10">
             {/* Header */}
-            <header className="glass sticky top-0 z-10">
+            <header className="glass sticky top-0 z-10 transition-all duration-300">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <div className="bg-gradient-primary p-2 rounded-lg text-white shadow-lg">
@@ -63,6 +63,13 @@ const TransactionDashboard = () => {
                         <h1 className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">FinTrack</h1>
                     </div>
                     <div className="flex gap-4 items-center">
+                        <button
+                            onClick={() => setIsUploadModalOpen(true)}
+                            className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors bg-white/50 hover:bg-white px-3 py-1.5 rounded-full border border-transparent hover:border-indigo-100"
+                        >
+                            <UploadCloud size={16} />
+                            <span className="hidden sm:inline">Upload</span>
+                        </button>
                         <button onClick={loadData} className="p-2 text-slate-400 hover:text-indigo-600 transition-colors" title="Refresh">
                             <RefreshCw size={18} className={loading ? "animate-spin" : ""} />
                         </button>
@@ -149,6 +156,32 @@ const TransactionDashboard = () => {
                     transaction={selectedTransaction}
                     onClose={() => setIsSplitModalOpen(false)}
                 />
+            )}
+
+            {/* Upload Modal */}
+            {isUploadModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200">
+                        <div className="flex items-center justify-between p-4 border-b border-slate-100">
+                            <h3 className="font-semibold text-slate-800">Upload Statement</h3>
+                            <button
+                                onClick={() => setIsUploadModalOpen(false)}
+                                className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-full transition-colors"
+                            >
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <div className="p-6">
+                            <FileUpload onUploadSuccess={() => {
+                                loadData();
+                                // Optional: Close modal on success after a delay? 
+                                // FileUpload component handles success state display.
+                                // We can let user close, or close cleanly. 
+                                // Let's keep it open so they see the success message.
+                            }} />
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

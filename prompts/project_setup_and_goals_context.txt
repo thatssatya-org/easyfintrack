@@ -1,0 +1,61 @@
+This codebase was generated using Gemini with the following prompt. Go thorugh it to gather context on the project goal.
+
+I have this backend api which return list of transactions queried based on file type and data.
+
+
+
+Design a frontend web app while looks modern to display the transactions. This is a starter feature. Suggest what more can be done in terms of features to make this a proper application for seeking funding. Suggested authorization methods. Suggest how generative AI can be used in this application.
+
+
+
+I would also want to develop split feature for every transaction which is interact with a separate backend service of mine keeping track of splits and also enabling feature for posting it to third parties like splitwise. Keep that in mind while developing this requirement
+
+
+
+{ "fileType": "STATEMENT", "date": "20251206", "metadata": { "ingestionStatus": "COMPLETED" }, "contents": [ { "rowReferenceId": "FILE-STATEMENT-20251206-1-ROW-0", "fileId": "STATEMENT-20251206-1", "rowNumber": "0", "content": { "amount": 22.3, "merchant_name_normalized": "Swiggy Cashback Reversal", "category_inferred": "Cashback Adjustment", "transaction_date_iso": "2025-10-18", "id": "email@gmail.com", "type": "debit", "rowNumber": 0, "description_raw": "10% Swiggy Cashback_Reversal" }
+
+},
+
+{ "rowReferenceId": "FILE-STATEMENT-20251206-1-ROW-1", "fileId": "STATEMENT-20251206-1", "rowNumber": "1", "content": { "amount": 53.18, "merchant_name_normalized": "Swiggy Cashback", "category_inferred": "Cashback Earned", "transaction_date_iso": "2025-10-18", "id": "email@gmail.com", "type": "credit", "rowNumber": 1, "description_raw": "1% Swiggy Cashback" }
+
+},
+
+{ "rowReferenceId": "FILE-STATEMENT-20251206-1-ROW-2", "fileId": "STATEMENT-20251206-1", "rowNumber": "2", "content": { "amount": 667.3, "merchant_name_normalized": "Swiggy Cashback", "category_inferred": "Cashback Earned", "transaction_date_iso": "2025-10-18", "id": "email@gmail.com", "type": "credit", "rowNumber": 2, "description_raw": "10% Swiggy Cashback" }
+
+},
+
+{ "rowReferenceId": "FILE-STATEMENT-20251206-1-ROW-3", "fileId": "STATEMENT-20251206-1", "rowNumber": "3", "content": { "amount": 529, "merchant_name_normalized": "Atcasa", "category_inferred": "Shopping", "transaction_date_iso": "2025-10-18", "id": "email@gmail.com", "type": "debit", "rowNumber": 3, "description_raw": "RAZ*ATCASAMumbai" }
+
+},
+
+{ "rowReferenceId": "FILE-STATEMENT-20251206-1-ROW-4", "fileId": "STATEMENT-20251206-1", "rowNumber": "4", "content": { "amount": 899, "merchant_name_normalized": "Google Play", "category_inferred": "Digital Services", "transaction_date_iso": "2025-10-19", "id": "email@gmail.com", "type": "debit", "rowNumber": 4, "description_raw": "GOOGLEPLAYMUMBAI" }
+
+},
+
+{ "rowReferenceId": "FILE-STATEMENT-20251206-1-ROW-5", "fileId": "STATEMENT-20251206-1", "rowNumber": "5", "content": { "amount": 449, "merchant_name_normalized": "Google Play", "category_inferred": "Digital Services", "transaction_date_iso": "2025-10-19", "id": "email@gmail.com", "type": "debit", "rowNumber": 5, "description_raw": "GOOGLEPLAYMUMBAI" }
+
+},
+
+{ "rowReferenceId": "FILE-STATEMENT-20251206-1-ROW-6", "fileId": "STATEMENT-20251206-1", "rowNumber": "6", "content": { "amount": 449, "merchant_name_normalized": "Google Play", "category_inferred": "Digital Services", "transaction_date_iso": "2025-10-21", "id": "email@gmail.com", "type": "debit", "rowNumber": 6, "description_raw": "GOOGLEPLAYMUMBAI" }
+
+},
+
+{ "rowReferenceId": "FILE-STATEMENT-20251206-1-ROW-7", "fileId": "STATEMENT-20251206-1", "rowNumber": "7", "content": { "amount": 5481.73, "merchant_name_normalized": "Melting Pot Concepts", "category_inferred": "Dining", "transaction_date_iso": "2025-10-31", "id": "email@gmail.com", "type": "debit", "rowNumber": 7, "description_raw": "EMI MELTING POT CONCEPTS PBangalore" }
+
+},
+
+{ "rowReferenceId": "FILE-STATEMENT-20251206-1-ROW-8", "fileId": "STATEMENT-20251206-1", "rowNumber": "8", "content": { "amount": 417, "merchant_name_normalized": "Swiggy", "category_inferred": "Food Delivery", "transaction_date_iso": "2025-10-31", "id": "email@gmail.com", "type": "debit", "rowNumber": 8, "description_raw": "PayU*Swiggy Limited Bangalore" }
+
+},
+
+{ "rowReferenceId": "FILE-STATEMENT-20251206-1-ROW-9", "fileId": "STATEMENT-20251206-1", "rowNumber": "9", "content": { "amount": 758.1, "merchant_name_normalized": "Inkbolt", "category_inferred": "Shopping", "transaction_date_iso": "2025-11-05", "id": "email@gmail.com", "type": "debit", "rowNumber": 9, "description_raw": "INKBOLTTHANE" }
+
+},
+
+{ "rowReferenceId": "FILE-STATEMENT-20251206-1-ROW-10", "fileId": "STATEMENT-20251206-1", "rowNumber": "10", "content": { "amount": 10190, "merchant_name_normalized": "Payment", "category_inferred": "Payment", "transaction_date_iso": "2025-11-05", "id": "email@gmail.com", "type": "credit", "rowNumber": 10, "description_raw": "BPPY CC PAYMENT BD015309BAJAAADCPOR (Ref# ST253110083000010433136)", "reference_number": "ST253110083000010433136" }
+
+}
+
+]
+
+}
