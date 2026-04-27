@@ -26,8 +26,8 @@ COPY server/ ./server/
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copy Nginx config
-RUN mkdir -p /etc/nginx/conf.d
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN mkdir -p /etc/nginx/http.d && rm -f /etc/nginx/http.d/default.conf
+COPY nginx.conf /etc/nginx/http.d/default.conf
 
 EXPOSE 80 8080
 
