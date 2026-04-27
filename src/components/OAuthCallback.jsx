@@ -49,7 +49,7 @@ export default function OAuthCallback() {
             return;
         }
 
-        const baseUrl = import.meta.env.VITE_AUTH_API_BASE_URL || 'http://localhost:8080';
+        const baseUrl = import.meta.env.VITE_AUTH_API_BASE_URL || '';
         const redirectUri = import.meta.env.VITE_OAUTH_REDIRECT_URI;
 
         if (!redirectUri) {
