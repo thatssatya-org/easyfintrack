@@ -1,34 +1,35 @@
 # Stage 1: Build the React Application
-FROM node:18-alpine as build
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copy package.json and package-lock.json first to leverage caching
 COPY package*.json ./
-
-# Install dependencies
 RUN npm ci
-
-# Copy the rest of the application code
 COPY . .
-
-# Build the application (creates the /dist folder)
 RUN npm run build
 
-# Stage 2: Serve the application with Nginx
-FROM nginx:alpine
+# Stage 2: Serve frontend with Nginx + run API server with Node
+FROM node:18-alpine
 
-# Remove default Nginx static assets
-RUN rm -rf /usr/share/nginx/html/*
+RUN apk add --no-cache nginx
 
-# Copy the build output from the previous stage
+WORKDIR /app
+
+# Install production deps only (for the API server)
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+# Copy server source
+COPY server/ ./server/
+
+# Copy built React assets
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy our custom Nginx configuration
+# Copy Nginx config
+RUN mkdir -p /etc/nginx/conf.d
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80
-EXPOSE 80
+EXPOSE 80 8080
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start Node API server in background, Nginx in foreground
+CMD ["sh", "-c", "node server/index.js & nginx -g 'daemon off;'"]

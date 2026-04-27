@@ -17,11 +17,19 @@ export default function OAuthCallback() {
         const state = params.get('state');
         const oauthError = params.get('error');
 
+        const clearOAuthStorage = () => {
+            sessionStorage.removeItem('oauth_state');
+            sessionStorage.removeItem('oauth_code_verifier');
+            sessionStorage.removeItem('oauth_provider_pending');
+        };
+
         if (oauthError) {
+            clearOAuthStorage();
             setError(`OAuth provider error: ${oauthError}`);
             return;
         }
         if (!code || !state) {
+            clearOAuthStorage();
             setError('Missing code or state in callback URL');
             return;
         }
@@ -31,16 +39,24 @@ export default function OAuthCallback() {
         const provider = sessionStorage.getItem('oauth_provider_pending');
 
         if (!storedState || storedState !== state) {
+            clearOAuthStorage();
             setError('State mismatch — possible CSRF attempt. Please try signing in again.');
             return;
         }
         if (!verifier || !provider) {
+            clearOAuthStorage();
             setError('Missing PKCE verifier or provider. Please try signing in again.');
             return;
         }
 
         const baseUrl = import.meta.env.VITE_AUTH_API_BASE_URL || 'http://localhost:8080';
         const redirectUri = import.meta.env.VITE_OAUTH_REDIRECT_URI;
+
+        if (!redirectUri) {
+            clearOAuthStorage();
+            setError('OAuth redirect URI is not configured');
+            return;
+        }
 
         (async () => {
             try {
@@ -65,9 +81,7 @@ export default function OAuthCallback() {
                     throw new Error('Invalid response from auth callback');
                 }
 
-                sessionStorage.removeItem('oauth_state');
-                sessionStorage.removeItem('oauth_code_verifier');
-                sessionStorage.removeItem('oauth_provider_pending');
+                clearOAuthStorage();
 
                 setSession({ token: data.token, user: data.user, provider });
                 navigate('/', { replace: true });
