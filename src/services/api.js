@@ -1,3 +1,8 @@
+function authHeaders() {
+    const token = sessionStorage.getItem('auth_token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 export const fetchTransactions = async (fileType = 'STATEMENT') => {
     try {
         const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
@@ -5,6 +10,7 @@ export const fetchTransactions = async (fileType = 'STATEMENT') => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                ...authHeaders(),
             },
             body: JSON.stringify({
                 "date": import.meta.env.VITE_TRANSACTION_DATE || '',
@@ -37,15 +43,16 @@ export const uploadFile = async (file) => {
 
         const response = await fetch(`${baseUrl}/v1/files/manual`, {
             method: 'POST',
+            headers: {
+                ...authHeaders(),
+            },
             body: formData,
-            // standard fetch handles Content-Type for FormData automatically (multipart/form-data boundary)
         });
 
         if (!response.ok) {
             throw new Error(`Upload failed: ${response.status}`);
         }
 
-        // Some backends might return empty body 204 or just text
         const text = await response.text();
         return text ? JSON.parse(text) : { success: true };
     } catch (error) {
