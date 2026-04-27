@@ -23,6 +23,7 @@ jobs:
           echo "VITE_GITHUB_CLIENT_ID=${{ secrets.VITE_GITHUB_CLIENT_ID }}" >> .env
           echo "VITE_GITHUB_CLIENT_SECRET=${{ secrets.VITE_GITHUB_CLIENT_SECRET }}" >> .env
           echo "FRONTEND_ORIGIN=${{ vars.FRONTEND_ORIGIN }}" >> .env
+          echo "VITE_AUTH_API_BASE_URL=${{ vars.VITE_AUTH_API_BASE_URL }}" >> .env
           echo "VITE_GOOGLE_CLIENT_ID=${{ vars.VITE_GOOGLE_CLIENT_ID }}" >> .env
           echo "VITE_OAUTH_REDIRECT_URI=${{ vars.VITE_OAUTH_REDIRECT_URI }}" >> .env
           echo "VITE_TRANSACTION_DATE=${{ vars.VITE_TRANSACTION_DATE }}" >> .env
