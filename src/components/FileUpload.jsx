@@ -79,7 +79,7 @@ const FileUpload = ({ onUploadSuccess }) => {
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
                 onClick={() => document.getElementById('file-upload-input').click()}
-                className={`relative group border-2 border-dashed rounded-xl p-8 transition-all duration-300 ease-out text-center cursor-pointer overflow-hidden
+                className={`relative group border-2 border-dashed rounded-xl p-6 sm:p-8 transition-all duration-300 ease-out text-center cursor-pointer overflow-hidden
                     ${isDragging ? 'border-amber-400 bg-amber-400/5 scale-[1.02]' : 'border-carbon-700 hover:border-amber-400/50 hover:bg-carbon-800/50'}
                     ${uploading ? 'pointer-events-none opacity-80' : ''}
                     ${success ? 'border-sage-400/60 bg-sage-400/5' : ''}

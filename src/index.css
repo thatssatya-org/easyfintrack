@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html, body {
+    @apply overflow-x-hidden;
+  }
+
   body {
     @apply bg-carbon-950 text-carbon-100;
     font-family: 'Outfit', system-ui, sans-serif;
