@@ -4,8 +4,8 @@ import crypto from 'node:crypto';
 const PORT = Number(process.env.PORT || 8080);
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || '*';
 
-const GITHUB_CLIENT_ID = process.env.VITE_GITHUB_CLIENT_ID || '';
-const GITHUB_CLIENT_SECRET = process.env.VITE_GITHUB_CLIENT_SECRET || '';
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || '';
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || '';
 
 const sessions = new Map();
 
